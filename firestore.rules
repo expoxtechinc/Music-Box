@@ -56,13 +56,13 @@ service cloud.firestore {
              data.artist is string && data.artist.size() >= 1 && data.artist.size() <= 150 &&
              data.audioUrl is string && data.audioUrl.size() >= 1 && data.audioUrl.size() <= 1200 &&
              data.coverUrl is string && data.coverUrl.size() <= 1200 &&
-             data.duration is number && data.duration >= 0 &&
+             data.duration is int && data.duration >= 0 &&
              data.genre is string && data.genre.size() <= 60 &&
              data.description is string && data.description.size() <= 2000 &&
              data.lyrics is string && data.lyrics.size() <= 10000 &&
-             data.plays is number && data.plays >= 0 &&
-             data.likesCount is number && data.likesCount >= 0 &&
-             data.sharesCount is number && data.sharesCount >= 0 &&
+             data.plays is int && data.plays >= 0 &&
+             data.likesCount is int && data.likesCount >= 0 &&
+             data.sharesCount is int && data.sharesCount >= 0 &&
              data.uploadedBy is string && data.uploadedBy.size() >= 1 && data.uploadedBy.size() <= 128 &&
              data.createdAt is timestamp;
     }

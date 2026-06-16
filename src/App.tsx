@@ -5,6 +5,7 @@ import { MusicPlayer } from "./components/MusicPlayer";
 import { TrackCard } from "./components/TrackCard";
 import { AdminPanel } from "./components/AdminPanel";
 import { PlaylistModal } from "./components/PlaylistModal";
+import { AuthTroubleshootingModal } from "./components/AuthTroubleshootingModal";
 import { Search, Compass, Music, UserCheck, Play, Sparkles, FolderHeart, ListMusic, Volume2, ShieldCheck, HelpCircle, Plus } from "lucide-react";
 import { GENRES } from "./data/mockSongs";
 import { Track, Playlist } from "./types";
@@ -444,6 +445,9 @@ function DashboardContent() {
       {showPlaylistModal && (
         <PlaylistModal onClose={() => setShowPlaylistModal(false)} />
       )}
+
+      {/* Auth Troubleshooting Modal */}
+      <AuthTroubleshootingModal />
 
     </div>
   );

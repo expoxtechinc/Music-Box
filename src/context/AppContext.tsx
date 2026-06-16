@@ -59,6 +59,8 @@ interface AppContextProps {
   addTrackToPlaylist: (playlistId: string, trackId: string) => Promise<void>;
   removeTrackFromPlaylist: (playlistId: string, trackId: string) => Promise<void>;
   playlists: Playlist[];
+  authError: { code: string; message: string; host: string } | null;
+  clearAuthError: () => void;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -67,6 +69,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [user, setUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loadingAuth, setLoadingAuth] = useState(true);
+  const [authError, setAuthError] = useState<{ code: string; message: string; host: string } | null>(null);
+  const clearAuthError = () => setAuthError(null);
 
   // Tracks listing (Realtime or simulated fallback list)
   const [tracks, setTracks] = useState<Track[]>([]);
@@ -255,10 +259,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Auth Operations
   const loginWithGoogle = async () => {
     try {
+      setAuthError(null);
       await signInWithPopup(auth, googleProvider);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Login Error: ", err);
-      alert("Sign-in process failed, Google popup may have been closed or blocked.");
+      const code = err?.code || "auth/unknown";
+      const message = err?.message || String(err);
+      const host = window.location.hostname;
+      setAuthError({ code, message, host });
     }
   };
 
@@ -577,7 +585,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         createPlaylist,
         addTrackToPlaylist,
         removeTrackFromPlaylist,
-        playlists
+        playlists,
+        authError,
+        clearAuthError
       }}
     >
       {children}
