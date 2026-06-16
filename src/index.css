@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* Custom utility style overrides */
+
+@theme {
+  --animate-spin-slow: spin 15s linear infinite;
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Rolling audio frequency bar animations */
+@keyframes frequency-pulse {
+  0%, 100% { height: 30%; }
+  50% { height: 100%; }
+}
+
+.animate-pulse-delayed-1 {
+  animation: frequency-pulse 1.2s ease-in-out infinite;
+}
+
+.animate-pulse-delayed-2 {
+  animation: frequency-pulse 0.8s ease-in-out infinite;
+}
+
+/* Custom fade-in screen transitions */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Clean transparent scrollbars for premium styling density */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 99px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #f97316;
+}
+
+/* Horizontal scrollbar hiding tags */
+.scroll-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Form inputs range customization */
+input[type="range"] {
+  -webkit-appearance: none;
+  background: #1f1f1f;
+  border-radius: 99px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 99px;
+  background: #f97316; /* Orange 500 */
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(249, 115, 22, 0.4);
+  transition: transform 0.1s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}

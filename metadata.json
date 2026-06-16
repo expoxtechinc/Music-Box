@@ -1,0 +1,6 @@
+{
+  "name": "MusisBox",
+  "description": "An interactive Audiomack-style music discovery and streaming application with track uploads, comments, shares, playlists, and user library persistence.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

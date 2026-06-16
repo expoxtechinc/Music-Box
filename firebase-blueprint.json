@@ -1,0 +1,106 @@
+{
+  "entities": {
+    "users": {
+      "title": "User Profile",
+      "description": "Metadata for registered users, tracks authorization status",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique user identifier matching Firebase Auth UID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "Display name of the user" },
+        "photoURL": { "type": "string", "description": "URL to the user's avatar" },
+        "isAdmin": { "type": "boolean", "description": "Whether the user can upload and manage tracks" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the profile was initialized" }
+      },
+      "required": ["uid", "email"]
+    },
+    "tracks": {
+      "title": "Music Track",
+      "description": "Metadata matching an audio file uploaded or referenced",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Document ID for the track" },
+        "title": { "type": "string", "description": "The title of the track" },
+        "artist": { "type": "string", "description": "The performing artist of the track" },
+        "audioUrl": { "type": "string", "description": "The static link to the audio file in Storage" },
+        "coverUrl": { "type": "string", "description": "The image asset linked to the track cover art" },
+        "duration": { "type": "number", "description": "Duration in seconds" },
+        "genre": { "type": "string", "description": "Main style category of the music track" },
+        "description": { "type": "string", "description": "Track background, credits, or commentary" },
+        "lyrics": { "type": "string", "description": "Verbatim text of the lyrics contents" },
+        "plays": { "type": "number", "description": "Aggregated playback request count" },
+        "likesCount": { "type": "number", "description": "Aggregated positive reactions counter" },
+        "sharesCount": { "type": "number", "description": "Count of times social share clicked" },
+        "uploadedBy": { "type": "string", "description": "The creator or administrator UID" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the track was mapped" }
+      },
+      "required": ["id", "title", "artist", "audioUrl"]
+    },
+    "likes": {
+      "title": "Track Like",
+      "description": "User action bookmarking a specific music file",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique key composite of userId_trackId" },
+        "userId": { "type": "string", "description": "User identifier who completed the action" },
+        "trackId": { "type": "string", "description": "The track that was liked" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Date-time bookmarking the reaction" }
+      },
+      "required": ["id", "userId", "trackId", "createdAt"]
+    },
+    "comments": {
+      "title": "Track Comment",
+      "description": "User review or text comments on songs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Document ID" },
+        "trackId": { "type": "string", "description": "The reference target track ID" },
+        "userId": { "type": "string", "description": "Author user ID reference" },
+        "userDisplayName": { "type": "string", "description": "Author custom layout display name" },
+        "userPhotoURL": { "type": "string", "description": "Author avatar graphic anchor" },
+        "content": { "type": "string", "description": "Literal comment content text" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp" }
+      },
+      "required": ["id", "trackId", "userId", "content", "createdAt"]
+    },
+    "playlists": {
+      "title": "User Playlist",
+      "description": "A collection of ordered tracks grouped together by a user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Document ID" },
+        "title": { "type": "string", "description": "Name of the playlist" },
+        "description": { "type": "string", "description": "Brief description of the playlist" },
+        "coverUrl": { "type": "string", "description": "Thumbnail image of the playlist cover" },
+        "creatorId": { "type": "string", "description": "The user ID who built the playlist" },
+        "creatorName": { "type": "string", "description": "Name of the creator" },
+        "trackIds": { "type": "array", "description": "Ordered track IDs" },
+        "isPublic": { "type": "boolean", "description": "Can other users find this playlist" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Date created" }
+      },
+      "required": ["id", "title", "creatorId", "trackIds"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "Profiles accessible individually or for admin querying"
+    },
+    "/tracks/{trackId}": {
+      "schema": "tracks",
+      "description": "List of all songs uploaded and playable"
+    },
+    "/tracks/{trackId}/comments/{commentId}": {
+      "schema": "comments",
+      "description": "Interactive feedback messages left on tracks"
+    },
+    "/likes/{likeId}": {
+      "schema": "likes",
+      "description": "Atomic like document references map userId_trackId"
+    },
+    "/playlists/{playlistId}": {
+      "schema": "playlists",
+      "description": "User composed song queue records"
+    }
+  }
+}
